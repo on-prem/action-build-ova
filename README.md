@@ -112,7 +112,7 @@ The list of download URLs for a build (ex: `https://meta.yourdomain.com:443/down
 
 The example below will generate an OVA with a dummy `app.tcz`. This workflow can be modified to perform many more tasks before and after building the OVA, and it can be triggered on other events such as `pull_request`. See [GitHub Actions documentation](https://help.github.com/en/actions/automating-your-workflow-with-github-actions)
 
-`.github/workflows/main.yml**`
+`.github/workflows/main.yml`
 
 ```yaml
 name: OVA
