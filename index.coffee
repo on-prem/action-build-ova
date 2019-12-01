@@ -49,9 +49,9 @@ init = () ->
           else
             # The status was returned as 'success' or 'failed'
             status = res
-            await core.setOutput 'status', status
 
             if status is 'success'
+              await core.setOutput 'status', status
 
               # Try to get the list of download URLs
               onprem.getDownloads builddate, (err, res) =>
@@ -68,6 +68,7 @@ init = () ->
 
             else if status is 'failed'
               # All the API calls worked, but the build failed for some reason
+              await core.setOutput 'status', status
               await core.setFailed "Build failed with status #{status}"
               process.exit 1
 

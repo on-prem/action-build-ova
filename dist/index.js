@@ -2273,8 +2273,8 @@ init = async function() {
           } else {
             // The status was returned as 'success' or 'failed'
             status = res;
-            await core.setOutput('status', status);
             if (status === 'success') {
+              await core.setOutput('status', status);
               // Try to get the list of download URLs
               return onprem.getDownloads(builddate, async(err, res) => {
                 var downloads;
@@ -2292,6 +2292,7 @@ init = async function() {
               });
             } else if (status === 'failed') {
               // All the API calls worked, but the build failed for some reason
+              await core.setOutput('status', status);
               await core.setFailed(`Build failed with status ${status}`);
               return process.exit(1);
             }
