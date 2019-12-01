@@ -1,0 +1,29 @@
+name: 'On-Prem Meta Build OVA Action'
+description: 'Build an OVA using the On-Prem Meta API'
+author: 'Unscramble <license@unscramble.jp>'
+branding:
+  icon: 'box'
+  color: 'gray-dark'
+
+inputs:
+  app_path:
+    description: 'The location of your application (ex: /my/path/app.tcz)'
+    required: true
+  repo_name:
+    description: 'Git repository containing appliance settings'
+    required: true
+  ova_type:
+    description: 'The type of OVA to build (ex: server)'
+    required: true
+
+outputs:
+  builddate:
+    description: 'The builddate which can be used to perform additional API calls'
+  status:
+    description: 'The status of the build once it completes (success or failed)'
+  downloads:
+    description: 'The list of download URLs for a build'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

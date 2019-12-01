@@ -1,0 +1,42 @@
+{
+  "name": "action-build-ova",
+  "version": "0.0.1",
+  "description": "Build an OVA using the On-Prem Meta API",
+  "main": "dist/index.js",
+  "homepage": "https://on-premises.com",
+  "private": false,
+  "scripts": {
+    "build": "coffee -c -b --no-header index.coffee && ncc build index.js && rm index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/on-prem/action-build-ova.git"
+  },
+  "keywords": [
+    "on-prem",
+    "meta",
+    "actions",
+    "library",
+    "api",
+    "REST"
+  ],
+  "author": "Alexander Williams, Unscramble <license@unscramble.jp>",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@actions/exec": "^1.0.1",
+    "@actions/github": "^1.1.0",
+    "@on-prem/on-prem-meta": "^1.4.0"
+  },
+  "bugs": {
+    "url": "https://github.com/on-prem/on-prem-meta-node/issues"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.20.5",
+    "coffeescript": "^2.4.1"
+  }
+}
