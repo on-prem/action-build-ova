@@ -4,6 +4,20 @@ This action launches an OVA build on an [On-Prem Meta](https://on-premises.com) 
 
 ![On-Prem Meta](https://user-images.githubusercontent.com/153401/69914371-7b26fc80-143b-11ea-8b87-e76ab75a8d0a.jpg)
 
+## About this Action
+
+This GitHub Action is written in [CoffeeScript](index.coffee) and builds on the [on-prem-meta NodeJS module](http://github.com/on-prem/on-prem-meta-node), which provides functions to easily manage the _Meta_ or [Admin API](https://github.com/on-prem/jidoteki-admin-api).
+
+1. [Getting started](#getting-started)
+2. [Secrets](#secrets-required)
+3. [Environment variables](#environment-variables-optional)
+4. [Inputs](#inputs)
+5. [Outputs](#outputs)
+6. [Examples](#examples)
+7. [Notes](#notes)
+8. [Build](#build)
+9. [License](#license)
+
 ## Getting started
 
 * Obtain a license for the [On-Prem Meta OVA](https://on-premises.com), and ensure it's setup and [accessible remotely by GitHub](https://help.github.com/en/github/authenticating-to-github/about-githubs-ip-addresses)
@@ -18,7 +32,6 @@ This action launches an OVA build on an [On-Prem Meta](https://on-premises.com) 
 
 ### Environment variables (optional)
 
-* `ON_PREM_META_PREFIX`: To manage the _Admin API_, set to `admin`. Default: `meta` to manage the _Meta API_
 * `ON_PREM_META_INSECURE`: If you're using a self-signed certificate, set to `true`. Default: `false` to always verify certificates
 
 ### Inputs
@@ -71,15 +84,15 @@ All build parameters for the On-Prem Meta API's `POST /builds` endpoint are avai
 
 #### `app_sha256`
 
-**(optional)**: The SHA256 checksum hash of the app file. If provided, a validation will ensure the uploaded app's checksum matches. Since `>= v1.11.0`
+**(optional)**: The SHA256 checksum hash of the app file. If provided, a validation will ensure the uploaded app's checksum matches.
 
 #### `export_disks`
 
-**(optional)**: A comma-separated list of disk types to export. Only accepts `raw`, `qcow2`, `vhd` when `build_type` is `1`, `3`, `5`, `9`, or `15`. Since `>= v1.12.0`
+**(optional)**: A comma-separated list of disk types to export. Only accepts `raw`, `qcow2`, `vhd` when `build_type` is `1`, `3`, `5`, `9`, or `15`.
 
 #### `ova_files`
 
-**(optional)**: A comma-separated list of OVAs to be built (ex: small,large). Default: `all`. Since `>= v1.13.0`
+**(optional)**: A comma-separated list of OVAs to be built (ex: small,large). Default: `all`.
 
 ### Outputs
 
@@ -143,8 +156,8 @@ jobs:
 
 ## Notes
 
-* This Action performs **no input validation**, since the On-Prem Meta API validates all parameters. It is still necessary to be careful which values you send define in your YAML workflow
-* It is recommended to specify [timeout-minutes: 180](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes) in the workflow, to prevent polling from running for too long
+* This Action performs **no input validation**, since the On-Prem Meta API validates all parameters. It is still necessary to be careful which values you define in your YAML workflow
+* It is recommended to specify [timeout-minutes: 180](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes) in the workflow, to prevent polling for too long
 * **(TODO)** A canceled workflow run will not cancel a running build. This will be fixed in a future version
 * All failures, such as API errors, 404s, timeouts, failed builds, etc, will return a `conclusion: failure` in the [Checks API](https://developer.github.com/v3/checks/)
 * A successful build will return a `conclusion: success` in the [Checks API](https://developer.github.com/v3/checks/)
@@ -162,4 +175,3 @@ To build this action:
 [MPL-2.0 License](LICENSE)
 
 Copyright (c) 2019 Alexander Williams, Unscramble <license@unscramble.jp>
-
