@@ -12,7 +12,7 @@ onprem    = require '@on-prem/on-prem-meta'
 init = () ->
   try
     # Get input variables
-    app_path     =    await core.getInput('app_path',       { required: true })
+    app_path     =    await core.getInput('app',            { required: true })
     query_params =
       repo_name:      await core.getInput('repo_name',      { required: true })
       ova_type:       await core.getInput('ova_type',       { required: true })

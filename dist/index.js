@@ -2207,7 +2207,7 @@ init = async function() {
   var app_path, error, query_params;
   try {
     // Get input variables
-    app_path = (await core.getInput('app_path', {
+    app_path = (await core.getInput('app', {
       required: true
     }));
     query_params = {

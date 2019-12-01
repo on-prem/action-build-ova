@@ -1,6 +1,6 @@
 {
   "name": "action-build-ova",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Build an OVA using the On-Prem Meta API",
   "main": "dist/index.js",
   "homepage": "https://on-premises.com",
