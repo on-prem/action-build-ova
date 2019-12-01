@@ -15,6 +15,39 @@ inputs:
   ova_type:
     description: 'The type of OVA to build (ex: server)'
     required: true
+  version:
+    description: "The OVA's OS version. Default: 1.0.0 or auto-increments"
+    required: false
+  friendly_name:
+    description: "A friendly name for display purposes only. Default: v1.0.0-<commit> or auto-increments"
+    required: false
+  build_type:
+    description: "1 for OVA, 2 for Diff, 3 for OVA+Diff, 4 for Bundle, 5 for OVA+Bundle, 8 for Full, 9 for OVA+Full, 15 for OVA+Diff+Bundle+Full. Default: 15"
+    required: false
+  ova_source:
+    description: "The build ID (builddate) of a previous build. Required if build_type is 2, 3, 4, 5, or 15. Default: last successful released build if build_type > 1"
+    required: false
+  commit:
+    description: "The Git branch/tag/commit ID to build from. Default: HEAD"
+    required: false
+  bundle_sources:
+    description: "A comma-separated list of build IDs for creating a bundle update package. Required if build_type is 4, 5, or 15. Default: same as ova_source"
+    required: false
+  notes:
+    description: 'A free-form text field to store notes related the build. Only accepts abcdefghijklmnopqrstuvwxyz0123456789-_.,#!*[]&/() \n\"\\:'
+    required: false
+  node_source:
+    description: "The build ID (builddate) of another appliance built with build_type 8, 9, or 15, to be included in an OVA or Update"
+    required: false
+  app_sha256:
+    description: "The SHA256 checksum hash of the app file. If provided, a validation will ensure the uploaded app's checksum matches"
+    required: false
+  export_disks:
+    description: "A comma-separated list of disk types to export. Only accepts raw, qcow2, vhd when build_type is 1, 3, 5, 9, or 15"
+    required: false
+  ova_files:
+    description: "A comma-separated list of OVAs to be built (ex: small,large). Default: all"
+    required: false
 
 outputs:
   builddate:
