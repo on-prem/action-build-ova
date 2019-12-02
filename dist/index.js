@@ -5748,7 +5748,7 @@ module.exports = require("path");
   fs = __webpack_require__(747);
 
   needle.defaults({
-    user_agent: 'nodeclient-on-prem-meta/1.4.0',
+    user_agent: 'nodeclient-on-prem-meta/1.5.0',
     response_timeout: 10000 // 10 seconds
   });
 
@@ -5830,64 +5830,85 @@ module.exports = require("path");
     });
   };
 
+  // returns a callback with the version of the API
+  exports.getVersion = (callback) => {
+    return this.buildRequest(void 0, (error, result) => {
+      if (!error) {
+        return this.apiCall(result, (err, res, data) => {
+          if (!err) {
+            return callback(data.version);
+          }
+        });
+      }
+    });
+  };
+
   // returns a callback with an error in arg1, or the builddate in arg2
   // the error is an Error object if non-HTTP related
   // the error is the request result if 404 or other HTTP error code (4xx or 5xx)
   exports.buildOVA = (application, parameters, callback) => {
-    var apiParams;
-    apiParams = {
-      method: 'POST',
-      endpoint: 'builds',
-      files: {
-        app: {
-          filename: 'app.tcz',
-          data: fs.readFileSync(application)
+    return this.getVersion((version) => {
+      var apiParams;
+      apiParams = {
+        method: 'POST',
+        endpoint: 'builds',
+        files: {
+          app: {
+            filename: 'app.tcz',
+            data: fs.readFileSync(application)
+          }
+        },
+        query: parameters
+      };
+      return this.buildRequest(apiParams, (error, result) => {
+        if (error) {
+          callback(error);
         }
-      },
-      query: parameters
-    };
-    return this.buildRequest(apiParams, (error, result) => {
-      if (error) {
-        callback(error);
-      }
-      return this.apiCall(result, function(err, res, data) {
-        if (err) {
-          return callback(new Error(err));
-        } else if (res.statusCode === 202 && res.statusMessage === 'Accepted') {
-          return callback(null, data.builddate);
-        } else {
-          return callback(data);
-        }
+        return this.apiCall(result, function(err, res, data) {
+          if (err) {
+            return callback(new Error(err));
+          } else if (res.statusCode === 202 && res.statusMessage === 'Accepted') {
+            if (version >= '1.13.1') {
+              return callback(null, data.builddate); // builddate added in v1.13.1
+            } else {
+              return callback(null, data.Location.split("=")[1]);
+            }
+          } else {
+            return callback(data);
+          }
+        });
       });
     });
   };
 
   exports.getStatus = (build, callback) => {
-    var apiParams;
-    apiParams = {
-      method: 'GET',
-      endpoint: 'builds/status',
-      query: {
-        builddate: build,
-        log: 0
-      }
-    };
-    return this.buildRequest(apiParams, (error, result) => {
-      if (error) {
-        callback(error);
-      }
-      return this.apiCall(result, function(err, res, data) {
-        if (err) {
-          return callback(new Error(err));
-        } else if (res.statusCode === 202 && res.statusMessage === 'Accepted') {
-          return callback(null, {
-            status: 'queued'
-          });
-        } else if (res.statusCode === 200 && data) {
-          return callback(null, data);
-        } else {
-          return callback(data);
+    return this.getVersion((version) => {
+      var apiParams;
+      apiParams = {
+        method: 'GET',
+        endpoint: 'builds/status',
+        query: {
+          builddate: build,
+          log: version >= '1.13.1' ? 0 : void 0 // log parameter added in v1.13.1
         }
+      };
+      return this.buildRequest(apiParams, (error, result) => {
+        if (error) {
+          callback(error);
+        }
+        return this.apiCall(result, function(err, res, data) {
+          if (err) {
+            return callback(new Error(err));
+          } else if (res.statusCode === 202 && res.statusMessage === 'Accepted') {
+            return callback(null, {
+              status: 'queued'
+            });
+          } else if (res.statusCode === 200 && data) {
+            return callback(null, data);
+          } else {
+            return callback(data);
+          }
+        });
       });
     });
   };
