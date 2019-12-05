@@ -2,7 +2,13 @@
 
 This action launches an OVA build on an [On-Prem Meta](https://on-premises.com) appliance. It registers the `builddate`, build `status`, and the list of available `downloads` URLs.
 
-![On-Prem Meta](https://user-images.githubusercontent.com/153401/69914371-7b26fc80-143b-11ea-8b87-e76ab75a8d0a.jpg)
+### GitHub Action run screenshot:
+
+![Action run screenshot](https://user-images.githubusercontent.com/153401/70211980-5fb73c80-172e-11ea-9049-94e2fa8f35d0.png)
+
+### On-Prem Meta build screenshot:
+
+![Meta build screenshot](https://user-images.githubusercontent.com/153401/70211979-5f1ea600-172e-11ea-8135-ecabd70813ef.png)
 
 ## About this Action
 
@@ -18,23 +24,23 @@ This GitHub Action is written in [CoffeeScript](index.coffee) and builds on the 
 8. [Build](#build)
 9. [License](#license)
 
-## Getting started
+# Getting started
 
 * Obtain a license for the [On-Prem Meta OVA](https://on-premises.com), and ensure it's setup and [accessible remotely by GitHub](https://help.github.com/en/github/authenticating-to-github/about-githubs-ip-addresses)
 * Create a workflow in the GitHub repository containing your appliance settings (see [examples](#Examples) below)
 
-### Secrets (required)
+## Secrets (required)
 
 [Register some secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets) for this Action to interact with your On-Prem Meta appliance. These _secrets_ **must** be set as environment variables in your workflow.
 
 * `ON_PREM_META_HOST`: the hostname and port of your appliance (ex: `meta.yourdomain.com:443`)
 * `ON_PREM_META_APITOKEN`: the API token to launch a build on your appliance (ex: `yourtoken`)
 
-### Environment variables (optional)
+## Environment variables (optional)
 
 * `ON_PREM_META_INSECURE`: If you're using a self-signed certificate, set to `true`. Default: `false` to always verify certificates
 
-### Inputs
+## Inputs
 
 All build parameters for the On-Prem Meta API's `POST /builds` endpoint are available as an _Input_ to this action.
 
@@ -94,7 +100,7 @@ All build parameters for the On-Prem Meta API's `POST /builds` endpoint are avai
 
 **(optional)**: A comma-separated list of OVAs to be built (ex: small,large). Default: `all`.
 
-### Outputs
+## Outputs
 
 #### `builddate`
 
@@ -108,7 +114,7 @@ The status of the build once it completes (ex: `success` or `failed`)
 
 The list of download URLs for a build (ex: `https://meta.yourdomain.com:443/downloads/build-1574834281.966265128/your-appliance-v1.2.3-release.ova`)
 
-## Examples
+# Examples
 
 The example below will generate an OVA with a dummy `app.tcz`. This workflow can be modified to perform many more tasks before and after building the OVA, and it can be triggered on other events such as `pull_request`. See [GitHub Actions documentation](https://help.github.com/en/actions/automating-your-workflow-with-github-actions)
 
@@ -156,7 +162,7 @@ jobs:
         echo "OVA Downloads: ${{ steps.buildova.outputs.downloads }}"
 ```
 
-## Notes
+# Notes
 
 * This Action performs **no input validation**, since the On-Prem Meta API validates all parameters. It is still necessary to be careful which values you define in your YAML workflow
 * It is recommended to specify [timeout-minutes: 180](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes) in the workflow, to prevent polling for too long
@@ -164,7 +170,7 @@ jobs:
 * All failures, such as API errors, 404s, timeouts, failed builds, etc, will return a `conclusion: failure` in the [Checks API](https://developer.github.com/v3/checks/)
 * A successful build will return a `conclusion: success` in the [Checks API](https://developer.github.com/v3/checks/)
 
-## Build
+# Build
 
 To build this action:
 
