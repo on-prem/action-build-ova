@@ -1,6 +1,6 @@
 {
   "name": "action-build-ova",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Build an OVA using the On-Prem Meta API",
   "main": "dist/index.js",
   "homepage": "https://on-premises.com",
@@ -21,16 +21,16 @@
     "api",
     "REST"
   ],
-  "author": "Alexander Williams, Unscramble <license@unscramble.jp>",
+  "author": "Alexander Williams, On-Prem <license@on-premises.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "@actions/core": "^1.2.0",
-    "@actions/exec": "^1.0.1",
-    "@actions/github": "^1.1.0",
+    "@actions/core": "^1.2.6",
+    "@actions/exec": "^1.0.4",
+    "@actions/github": "^4.0.0",
     "@on-prem/on-prem-meta": "^1.5.0"
   },
   "bugs": {
-    "url": "https://github.com/on-prem/on-prem-meta-node/issues"
+    "url": "https://github.com/on-prem/action-build-ova/issues"
   },
   "engines": {
     "node": ">=12"
