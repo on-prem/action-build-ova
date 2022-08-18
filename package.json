@@ -24,7 +24,7 @@
   "author": "Alexander Williams, On-Prem <license@on-premises.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.9.1",
     "@actions/exec": "^1.0.4",
     "@actions/github": "^4.0.0",
     "@on-prem/on-prem-meta": "^1.5.0"
